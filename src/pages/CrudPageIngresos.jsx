@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import CrudTable from '../components/movimientos/ingreso/Table';
-import CrudModal from '../components/movimientos/ingreso/ModalForm';
+import CrudTable from '../components/movimientos/Table';
+import CrudModal from '../components/movimientos/ModalForm';
 import Layout from '../components/Layout';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
