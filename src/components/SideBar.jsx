@@ -49,10 +49,6 @@ export default function Sidebar() {
               <FaAddressBook className="me-2" />
               <span>Tipo Persona</span>
             </Link>
-            <Link className="d-flex align-items-center ps-4 text-success text-decoration-none" to={"/crud-page-equipos"}>
-              <FaLaptop className="me-2" />
-              <span>Equipos</span>
-            </Link>
             <Link className="d-flex align-items-center ps-4 text-success text-decoration-none" to={"/crud-page-tipo-equipo"}>
               <FaLaptop className="me-2" />
               <span>Tipo Equipo</span>

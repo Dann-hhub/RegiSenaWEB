@@ -97,9 +97,9 @@ export default function CrudModal({
                   defaultValue={formData?.ingreso || "Ocasional"}
                   disabled={isEditing} // Siempre bloqueado en edición
                 >
+                  <option value="">Selecciona tipo de ingreso...</option>
                   <option value="Ocasional">Ocasional</option>
-                  <option value="Regular">Regular</option>
-                  <option value="Especial">Especial</option>
+                  <option value="Permanente">Permanente</option>
                 </Form.Control>
               </Form.Group>
 
@@ -137,7 +137,7 @@ export default function CrudModal({
                     defaultValue={formData?.salida || ""}
                     disabled={!isExitRegistration}
                   >
-                    <option value="">Seleccione un motivo...</option>
+                    <option value="">Seleccione tipo de salida...</option>
                     <option value="Ocasional">Ocasional</option>
                     <option value="Permanente">Permanente</option>
                   </Form.Control>
