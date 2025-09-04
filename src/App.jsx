@@ -8,7 +8,6 @@ import DashboardPage  from './pages/DashboardPage';
 import CrudPagePersonas  from './pages/CrudPagePersonas';
 import CrudPageEquipos  from './pages/CrudPageEquipos';
 import CrudPageIngresos from './pages/CrudPageIngresos';
-import CrudPageSalidas from './pages/CrudPageSalidas';
 import CrudPageTipoEquipos from './pages/CrudPageTipoEquipos';
 import CrudPageTipoPersonas from './pages/CrudPageTipoPersonas';
 import PermisoPage from './pages/PermisoPage';
@@ -26,7 +25,6 @@ export default function App() {  // ¡Asegúrate del export default!
         <Route path="/crud-page-equipos" element={<CrudPageEquipos />} />
         <Route path="/dashboard-page" element={<DashboardPage />} />
         <Route path="/crud-page-ingresos" element={<CrudPageIngresos />} />
-        <Route path="/crud-page-salidas" element={<CrudPageSalidas />} />
         <Route path="/crud-page-tipo-equipo" element={<CrudPageTipoEquipos />} />
         <Route path="/crud-page-tipo-persona" element={<CrudPageTipoPersonas />} />
         <Route path="/permiso-page" element={<PermisoPage />} />
