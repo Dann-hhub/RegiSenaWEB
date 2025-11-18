@@ -1,7 +1,54 @@
 .dashboard-content {
   padding: 20px;
-  max-width: 1400px;
+  width: 100%;
+  max-width: none;
   margin: 0 auto;
+}
+
+.dashboard-hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 22px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #f6f9ff 0%, #fff8f5 100%);
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  margin-bottom: 22px;
+}
+
+.hero-subtitle {
+  margin: 4px 0 0 0;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.dashboard-title {
+  color: #2c3e50;
+  margin: 0;
+}
+
+.refresh-button {
+  padding: 8px 16px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.refresh-button:hover {
+  background-color: #3e8e41;
 }
 
 .dashboard-row {
@@ -12,14 +59,42 @@
 
 .dashboard-card {
   background: white;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
   padding: 20px;
   flex: 1;
 }
 
 .dashboard-card.large {
   flex: 2;
+}
+
+.summary-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  padding: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.summary-item {
+  text-align: center;
+  padding: 15px;
+}
+
+.summary-label {
+  display: block;
+  color: #666;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.summary-value {
+  font-weight: bold;
+  font-size: 32px;
+  color: #10b981;
 }
 
 .card-header {
@@ -38,6 +113,7 @@
   margin-left: auto;
   display: flex;
   gap: 8px;
+  margin-top: 15px;
 }
 
 .time-filters button {
@@ -54,49 +130,209 @@
   border-color: #4CAF50;
 }
 
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 15px;
-  margin-top: 20px;
+.loading-spinner {
+  text-align: center;
+  padding: 40px;
+  font-size: 18px;
+  color: #666;
 }
 
-.stat-item {
-  background: #f8f9fa;
+.error-message {
+  text-align: center;
+  padding: 40px;
+  color: #e74c3c;
+}
+
+.retry-button {
+  margin-top: 15px;
+  padding: 8px 16px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .dashboard-row {
+    flex-direction: column;
+  }
+  
+  .dashboard-card.large {
+    flex: 1;
+  }
+  
+  .dashboard-header {
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+  }
+}
+
+/* Estilos para los botones de exportación */
+.header-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.export-all-button {
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.export-all-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.export-all-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.card-actions {
+  display: flex;
+  justify-content: flex-end;
   padding: 15px;
-  border-radius: 8px;
+  border-top: 1px solid #eee;
+  margin-top: auto;
+}
+
+.export-button {
+  background: linear-gradient(135deg, #f97316 0%, #ef4444 100%);
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.export-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(245, 87, 108, 0.3);
+}
+
+.export-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Mejoras para las tarjetas */
+.dashboard-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-card .card-header {
+  flex-shrink: 0;
+}
+
+.dashboard-card .apexcharts-canvas {
+  flex-grow: 1;
+}
+
+.card-modern .card-header h3 {
+  margin: 0;
+}
+
+.no-data-message {
+  color: #9ca3af;
+  text-align: center;
+  padding: 40px 0;
+}
+
+.loading-spinner, .error-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
   text-align: center;
 }
 
-.stat-label {
-  display: block;
-  color: #666;
-  font-size: 14px;
+.retry-button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
 }
 
-.stat-value {
-  font-weight: bold;
-  font-size: 18px;
-  color: #2c3e50;
+/* ===== Overrides modernos para nuevo tema ===== */
+.dashboard-title { color: var(--text); }
+
+/* Botones del dashboard con degradado verde lima → blanco */
+.refresh-button {
+  background: linear-gradient(135deg, #32cd32, #ffffff);
+  color: #0f172a;
+  border-radius: 10px;
+  border: 1px solid rgba(50,205,50,0.35);
+  box-shadow: 0 12px 28px rgba(50,205,50,0.22);
+}
+.refresh-button:hover {
+  background: linear-gradient(135deg, #58e158, #ffffff);
+  filter: none;
 }
 
-.table-container {
-  overflow-x: auto;
-  margin-top: 20px;
+.retry-button {
+  background: linear-gradient(135deg, #32cd32, #ffffff);
+  color: #0f172a;
+  border: 1px solid rgba(50,205,50,0.35);
+}
+.retry-button:hover {
+  background: linear-gradient(135deg, #58e158, #ffffff);
 }
 
-.dashboard-table {
-  width: 100%;
-  border-collapse: collapse;
+.dashboard-card {
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(15,23,42,0.08);
 }
 
-.dashboard-table th, .dashboard-table td {
-  padding: 12px 15px;
-  text-align: left;
-  border-bottom: 1px solid #eee;
+.summary-card {
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(15,23,42,0.08);
+  justify-content: space-around;
 }
 
-.dashboard-table th {
-  background-color: #f8f9fa;
-  font-weight: 600;
+.summary-item { padding: 10px 14px; }
+.summary-label { color: var(--muted); }
+.summary-value { color: var(--primary); font-weight: 800; }
+
+.card-icon { color: var(--primary); }
+
+.time-filters button {
+  border-color: rgba(15,23,42,0.08);
+  background: #f8fafc;
+}
+.time-filters button.active {
+  background: linear-gradient(135deg, #32cd32, #ffffff);
+  color: #0f172a;
+  border-color: rgba(50,205,50,0.35);
+}
+
+@media (max-width: 768px) {
+  .dashboard-header { flex-direction: column; gap: 12px; align-items: flex-start; }
 }

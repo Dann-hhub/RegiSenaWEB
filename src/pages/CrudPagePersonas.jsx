@@ -1,80 +1,118 @@
-import { useState } from 'react';
-import CrudTable from '../components/persona/Table';
-import CrudModal from '../components/persona/ModalForm';
+import { useState, useEffect } from 'react';
+import { Container, Alert, Button } from 'react-bootstrap';
+import { FaSync } from 'react-icons/fa';
+import PersonaCrudUnificado from '../components/persona/PersonaCrudUnificado';
 import Layout from '../components/Layout';
+import AnimatedPage from '../components/AnimatedPage';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-export default function CrudPage() {
-  const [data, setData] = useState([]);
-  const [showModal, setShowModal] = useState(false);
-  const [currentItem, setCurrentItem] = useState(null);
-  const [isViewMode, setIsViewMode] = useState(false);
+const API_URL = 'http://127.0.0.1:5000';
 
-  const handleSubmit = (formData) => {
-    const newItem = {
-      id: currentItem?.id || Date.now(),
-      documento: formData.documento,
-      tipoDocumento: formData.tipoDocumento,
-      nombre: formData.nombre,
-      apellido: formData.apellido,
-      correo: formData.correo,
-      tipoPersona: formData.tipoPersona,
-      celular: formData.celular,
-      equipos: formData.equipos || []
+export default function PersonaCrud() {
+  const [personas, setPersonas] = useState([]);
+  const [tiposPersona, setTiposPersona] = useState([]);
+  const [equipos, setEquipos] = useState([]);
+  const [tiposEquipo, setTiposEquipo] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+  const [alert, setAlert] = useState({ show: false, message: '', type: '' });
+
+  const showAlert = (message, type = 'success') => {
+    setAlert({ show: true, message, type });
+    setTimeout(() => setAlert({ show: false, message: '', type: '' }), 5000);
+  };
+
+  // 🔄 FUNCIÓN GENÉRICA PARA FETCH
+  const fetchData = async (endpoint, setter, dataKey) => {
+    try {
+      const response = await fetch(`${API_URL}/${endpoint}`);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
+      const result = await response.json();
+      setter(result[dataKey] || []);
+      
+    } catch (error) {
+      console.error(`❌ Error cargando ${endpoint}:`, error);
+      showAlert(`❌ Error al cargar ${endpoint}: ${error.message}`, 'danger');
+      setter([]);
+    }
+  };
+
+  // 📥 CARGAR TODOS LOS DATOS
+  const fetchAllData = async () => {
+    setRefreshing(true);
+    
+    await Promise.all([
+      fetchData('persona', setPersonas, 'personas'),
+      fetchData('tipopersona', setTiposPersona, 'tipopersonas'),
+      fetchData('equipo', setEquipos, 'equipos'),
+      fetchData('tipoequipo', setTiposEquipo, 'tipoequipos')
+    ]);
+    
+    setRefreshing(false);
+  };
+
+  // 🔄 MANEJAR ACTUALIZACIÓN
+  const handleRefresh = async () => {
+    await fetchAllData();
+    showAlert('✅ Datos actualizados correctamente', 'success');
+  };
+
+  // 📥 CARGA INICIAL
+  useEffect(() => {
+    const loadInitialData = async () => {
+      setLoading(true);
+      await fetchAllData();
+      setLoading(false);
     };
 
-    setData(currentItem
-      ? data.map(item => item.id === currentItem.id ? newItem : item)
-      : [...data, newItem]
-    );
-    setShowModal(false);
-    setCurrentItem(null);
-  };
-
-  const handleCreate = () => {
-    setCurrentItem(null);
-    setIsViewMode(false);
-    setShowModal(true);
-  };
-
-  const handleEdit = (item) => {
-    setCurrentItem(item);
-    setIsViewMode(false);
-    setShowModal(true);
-  };
-
-  const handleView = (item) => {
-    setCurrentItem(item);
-    setIsViewMode(true);
-    setShowModal(true);
-  };
-
-  const handleDelete = (id) => {
-    setData(data.filter(item => item.id !== id));
-  };
+    loadInitialData();
+  }, []);
 
   return (
     <Layout>
-      <div className="crud-container">
-        <CrudTable
-          data={data}
-          onEdit={handleEdit}
-          onView={handleView}
-          onDelete={handleDelete}
-          onCreate={handleCreate}
+      <AnimatedPage>
+      <Container className="mt-4">
+        {/* ALERTAS */}
+        {alert.show && (
+          <Alert
+            variant={alert.type}
+            dismissible
+            onClose={() => setAlert({ show: false, message: '', type: '' })}
+            className="mb-3"
+          >
+            {alert.message}
+          </Alert>
+        )}
+
+        {/* HEADER CON BOTÓN */}
+        <div className="d-flex justify-content-between align-items-center mb-3">
+          <h1 className="h3 mb-0">👥 Gestión de Personas</h1>
+          <Button
+            variant="outline-primary"
+            onClick={handleRefresh}
+            disabled={refreshing}
+          >
+            <FaSync className={refreshing ? 'fa-spin me-2' : 'me-2'} />
+            {refreshing ? 'Actualizando...' : 'Actualizar Datos'}
+          </Button>
+        </div>
+
+        {/* COMPONENTE PRINCIPAL */}
+        <PersonaCrudUnificado
+          personas={personas}
+          tiposPersona={tiposPersona}
+          equipos={equipos}
+          tiposEquipo={tiposEquipo}
+          loading={loading}
+          onRefresh={() => fetchData('persona', setPersonas, 'personas')}
+          showAlert={showAlert}
         />
-        
-        <CrudModal
-          show={showModal}
-          handleClose={() => {
-            setShowModal(false);
-            setCurrentItem(null);
-          }}
-          handleSubmit={handleSubmit}
-          formData={currentItem}
-          isViewMode={isViewMode}
-        />
-      </div>
+      </Container>
+      </AnimatedPage>
     </Layout>
   );
 }

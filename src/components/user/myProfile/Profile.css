@@ -1,0 +1,70 @@
+/* Scoped styles for the Profile section */
+
+.profile-section .profile-hero {
+  background: linear-gradient(90deg, #32cd32 0%, #ffffff 100%);
+  border: 1px solid #d9f5d9;
+  box-shadow: 0 8px 24px rgba(50, 205, 50, 0.12);
+}
+
+.profile-section .profile-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid #32cd32;
+  color: #2d7a2d;
+}
+
+.profile-section .profile-initials {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.profile-section .role-badge {
+  background-color: #2d7a2d !important;
+}
+
+.profile-section .card-modern {
+  border-radius: 12px;
+  border: 1px solid #eaf7ea;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+}
+
+.profile-section .stat-card {
+  border-radius: 12px;
+  border: 1px solid #eaf7ea;
+}
+
+.profile-section .info-item .label {
+  display: block;
+  font-weight: 600;
+  color: #6c757d;
+}
+
+.profile-section .info-item .value {
+  display: block;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+/* Scoped button styles to avoid global impact */
+.profile-section .btn-success {
+  background: linear-gradient(90deg, #2ecc71 0%, #ffffff 100%);
+  color: #1f2937;
+  border: 1px solid #bdeccf;
+}
+
+.profile-section .btn-success:hover,
+.profile-section .btn-success:focus {
+  background: linear-gradient(90deg, #29b564 0%, #f7fff7 100%);
+}
+
+.profile-section .btn-outline-success {
+  border-color: #32cd32;
+  color: #2d7a2d;
+}
+
+.profile-section .btn-outline-success:hover,
+.profile-section .btn-outline-success:focus {
+  background-color: #eaffea;
+}
